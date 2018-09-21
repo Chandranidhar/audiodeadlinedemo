@@ -1,23 +1,183 @@
-<p>
-  homepage works!
-</p>
+<!--<p>-->
+<!--homepage works!-->
+<!--</p>-->
 
-<span> <a [routerLink]="['/home1',{id: 1, name:'angular'}]">Go to home1</a></span>
-<!--<span> <button [routerLink]="['/home1',1]">Go to home1....</button></span>-->
+<!--<span> <a [routerLink]="['/home1',{id: 1, name:'angular'}]">Go to home1</a></span>-->
+<!--&lt;!&ndash;<span> <button [routerLink]="['/home1',1]">Go to home1....</button></span>&ndash;&gt;-->
 
-<h1>
-  Sign in
-</h1>
+<!--<h1>-->
+<!--Sign in-->
+<!--</h1>-->
+<h2 class="text-center">FaceBook Page Development</h2>
 
-<button (click)="socialSignIn('facebook')">Sign in with Facebook</button>
-<button (click)="socialSignIn('google')">Sign in with Google</button>
-<button (click)="getfbInfo()">Get FaceBook Profile Info.</button>
-<div>{{cookieValue_fbUserEmail}}</div>
-<div>{{cookieValue_fbUserID}}</div>
-<div>{{cookieValue_fbUserImage}}</div>
-<div>{{cookieValue_fbUserToken}}</div>
-<div>{{cookieValue_fbUserName}}</div>
-<div>
-  <img src={{cookieValue_fbUserImage}} >
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3 col-sm-6 col-md-6 text-center">
+
+      <button class="loginBtn loginBtn--facebook text-center" (click)="socialSignIn('facebook')">
+        Login with Facebook
+      </button>
+    </div>
+
+  </div>
 </div>
-<button (click)="removefbInfo()">Remove all Profile Info.</button>
+
+
+
+
+<!--<button (click)="socialSignIn('google')">Sign in with Google</button>-->
+
+
+
+
+
+<div class="container">
+  <div class="row">
+
+
+      <div *ngIf="pageData!=''" class="col-12">
+        <button class="loginBtn profileButton text-center" (click)="getfbInfo()">
+          Get FaceBook Profile Info
+        </button>
+        <button class="loginBtn profileButton text-center " (click)="getPageInfo()">Get Page Information</button>
+
+            <div class="col-lg-3 col-sm-6">
+
+              <div class="card hovercard">
+                <div class="cardheader">
+
+                </div>
+                <div class="avatar">
+                  <img alt="" src={{cookieValue_fbUserImage}}>
+                </div>
+                <div class="info">
+                  <div class="title">
+                    {{cookieValue_fbUserName}}
+                  </div>
+                  <div class="desc">{{cookieValue_fbUserEmail}}</div>
+                  <!--<div class="desc">Curious developer</div>-->
+                  <!--<div class="desc">Tech geek</div>-->
+                </div>
+
+              </div>
+
+            </div>
+
+
+      </div>
+
+  </div>
+  <!--<div>{{cookieValue_fbUserEmail}}</div>-->
+  <!--<div>{{cookieValue_fbUserID}}</div>-->
+  <!--<div>{{cookieValue_fbUserImage}}</div>-->
+  <!--<div>{{cookieValue_fbUserToken}}</div>-->
+  <!--<div>{{cookieValue_fbUserName}}</div>-->
+  <!--<div>-->
+  <!--<img src={{cookieValue_fbUserImage}} >-->
+  <!--</div>-->
+  <!--<button *ngIf="cookieValue_fbUserEmail!=''" (click)="removefbInfo()">Remove all Profile Info.</button>-->
+</div>
+
+
+
+
+
+<div *ngIf="pageData.length > 0 && showPage==1" class="container" >
+  <h1 class="text-center">Page Information</h1>
+  <div class="row">
+    <div *ngFor="let page of pageData; let i = index" class="col-lg-3 col-sm-6 col-md-6">
+
+      <div class="card hovercard">
+        <div class="cardheader" *ngIf="page.cover!=null" [style.background]="'url(' + page.cover.source + ') no-repeat cover'">
+          wer
+
+        </div>
+
+        <div class="cardheader" *ngIf="page.cover==null">
+
+        </div>
+        <div class="avatar">
+          <img alt="" src={{page.picture.data.url}}>
+        </div>
+        <div class="info">
+          <div class="title">
+            {{page.name}}
+          </div>
+          <div class="desc">{{page.about}}</div>
+          <div class="desc">{{page.category}}</div>
+          <div class="desc">{{page.fan_count}}</div>
+          <button class="loginBtn profileButton text-center" (click)="getpagefeed(page.id)">Get Page Feeds</button>
+          <!--<div class="desc">Curious developer</div>-->
+          <!--<div class="desc">Tech geek</div>-->
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+      <!--<div>-->
+      <!--<label>About:  </label>-->
+      <!--{{page.about}}-->
+      <!--</div>-->
+      <!--<div>-->
+      <!--<label>Name:  </label>-->
+      <!--{{page.name}}-->
+      <!--</div>-->
+      <!--<div>-->
+      <!--<label>Category:  </label>{{page.category}}-->
+      <!--</div>-->
+      <!--<div *ngIf="page.cover!=null">-->
+      <!--<label>Cover Source:  </label>{{page.cover.source}}-->
+      <!--</div>-->
+      <!--<div *ngIf="page.cover!=null">-->
+      <!--<img src={{page.cover.source}}>-->
+      <!--</div>-->
+      <!--<div>-->
+      <!--<label>Picture URL: </label>{{page.picture.data.url}}-->
+      <!--</div>-->
+      <!--<div>-->
+      <!--<img src={{page.picture.data.url}}>-->
+      <!--</div>-->
+      <!--<div >-->
+      <!--<label>Owner: </label>{{page.is_owned}}-->
+      <!--</div>-->
+      <!--<div>-->
+      <!--<label>Category List:  </label>-->
+      <!--<div *ngFor="let pageCat of page.category_list; let i1 = index">-->
+      <!--<label>Name:</label>-->
+      <!--{{pageCat.name}}-->
+      <!--<br>-->
+      <!--</div>-->
+
+      <!--</div>-->
+      <!--<div>-->
+      <!--<label>Visit the page:  </label>-->
+      <!--{{page.link}}-->
+      <!--</div>-->
+      <!--<div>-->
+      <!--<label>Access token:  </label>-->
+      <!--{{page.access_token}}-->
+      <!--</div>-->
+      <!--<div>-->
+      <!--<label>Fan count:  </label>-->
+      <!--{{page.fan_count}}-->
+      <!--</div>-->
+      <!--<div>-->
+      <!--<label>New like count:  </label>-->
+      <!--{{page.new_like_count}}-->
+      <!--</div>-->
+
+
+
+
+    </div>
+  </div>
+
+</div>
+
+
+<!--<fb-post href="https://www.facebook.com/20531316728/posts/10154009990506729/"></fb-post>-->

@@ -4,6 +4,7 @@ import {appRoutingProviders, routing } from './routes';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { Home1Component } from './home1/home1.component';
+import { FacebookModule } from 'ngx-facebook';
 import {
   SocialLoginModule,
   AuthServiceConfig,
@@ -12,8 +13,9 @@ import {
 } from 'angular-6-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClientModule } from '@angular/common/http';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
-export function getAuthServiceConfigs() {
+export function getAuthServiceConfigs() {         //configuration for social media
   let config = new AuthServiceConfig(
     [
       {
@@ -58,7 +60,9 @@ export function getAuthServiceConfigs() {
   imports: [
     BrowserModule,
     routing, SocialLoginModule,
-    HttpClientModule
+    HttpClientModule,
+    FacebookModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   providers: [appRoutingProviders, CookieService ,{
     provide: AuthServiceConfig,

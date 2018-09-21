@@ -7,18 +7,30 @@ import {
 } from 'angular-6-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import {error} from '@angular/compiler-cli/src/transformers/util';
+import { FacebookService, InitParams } from 'ngx-facebook';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent implements OnInit {
-  cookieValue_fbUserID = 'UNKNOWN';
-  cookieValue_fbUserEmail = 'UNKNOWN';
-  cookieValue_fbUserImage = 'UNKNOWN';
-  cookieValue_fbUserToken = 'UNKNOWN';
-  cookieValue_fbUserName = 'UNKNOWN';
-  constructor(private socialAuthService: AuthService, private cookieService: CookieService, private http: HttpClient) {
+  cookieValue_fbUserID = '';
+  cookieValue_fbUserEmail = '';
+  cookieValue_fbUserImage = '';
+  cookieValue_fbUserToken = '';
+  cookieValue_fbUserName = '';
+  pageData:any='';
+  private pagefeedData: any='';
+  showPage:any =0;
+  constructor(private socialAuthService: AuthService, private cookieService: CookieService, private http: HttpClient,private fb: FacebookService) {
+
+    let initParams: InitParams = {
+      appId: '906815096194208',
+      xfbml: true,
+      version: 'v2.8'
+    };
+
+    fb.init(initParams);
 
 
   }
@@ -29,7 +41,7 @@ export class HomepageComponent implements OnInit {
 
   }
 
-  public socialSignIn(socialPlatform : string) {
+  public socialSignIn(socialPlatform : string) {                          //sign in function
     let socialPlatformProvider;
     if(socialPlatform == "facebook"){
       socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
@@ -41,7 +53,7 @@ export class HomepageComponent implements OnInit {
 
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
-        const link = 'https://audiodeadline.com/demo/php/facebook_longlivetoken.php/';
+        const link = 'https://audiodeadline.com/demo/php/facebook_longlivetoken.php/';          //link for long-lived token
         this.http.post(link, { token: userData.token, appid: '906815096194208', appsecret: 'f569451eb41a239d2045ebf115a3bcc7'})
           .subscribe(data => {
 
@@ -49,6 +61,20 @@ export class HomepageComponent implements OnInit {
             let dataVal: any;
             dataVal = data;
             this.cookieService.set( 'fb_user_token', dataVal.token );
+
+            const link2 = 'https://audiodeadline.com/demo/php/facebook_api_pagelist.php';
+            this.http.post(link2, { token: dataVal.token})
+              .subscribe( data => {
+                let data_val: any ;
+                data_val = data;
+                this.pageData = data;
+                console.log(data_val);
+                // this.cookieService.set('access_token', data_val.token);
+                },
+                error1 => {
+                console.log('error2');
+                }
+              );
 
 
           }, error1 => {
@@ -59,7 +85,7 @@ export class HomepageComponent implements OnInit {
          // });
         console.log(socialPlatform +"sign in data :", userData);
         // Now sign-in with userData
-        this.cookieService.set( 'fb_user_id', userData.id );
+        this.cookieService.set( 'fb_user_id', userData.id );                    //set the cookie
         this.cookieService.set( 'fb_user_email', userData.email );
         this.cookieService.set( 'fb_user_image', userData.image );
         this.cookieService.set( 'fb_user_token', userData.token );
@@ -81,6 +107,25 @@ export class HomepageComponent implements OnInit {
     this.getfbInfo();
     console.log(123456);
 
+  }
+  getpagefeed(pageid) {
+
+    const link2 = 'https://audiodeadline.com/demo/php/facebook_api_pagefeed.php';
+    this.http.post(link2, { token: this.cookieService.get('fb_user_token'), pageid : pageid })
+      .subscribe( data => {
+          let data_val: any ;
+          data_val = data;
+          this.pagefeedData = data;
+          console.log(data_val);
+          // this.cookieService.set('access_token', data_val.token);
+        },
+        error1 => {
+          console.log('error2');
+        }
+      );
+  }
+  getPageInfo(){
+    this.showPage = 1;
   }
 
 }
