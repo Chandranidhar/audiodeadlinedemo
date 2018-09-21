@@ -1,0 +1,23 @@
+<p>
+  homepage works!
+</p>
+
+<span> <a [routerLink]="['/home1',{id: 1, name:'angular'}]">Go to home1</a></span>
+<!--<span> <button [routerLink]="['/home1',1]">Go to home1....</button></span>-->
+
+<h1>
+  Sign in
+</h1>
+
+<button (click)="socialSignIn('facebook')">Sign in with Facebook</button>
+<button (click)="socialSignIn('google')">Sign in with Google</button>
+<button (click)="getfbInfo()">Get FaceBook Profile Info.</button>
+<div>{{cookieValue_fbUserEmail}}</div>
+<div>{{cookieValue_fbUserID}}</div>
+<div>{{cookieValue_fbUserImage}}</div>
+<div>{{cookieValue_fbUserToken}}</div>
+<div>{{cookieValue_fbUserName}}</div>
+<div>
+  <img src={{cookieValue_fbUserImage}} >
+</div>
+<button (click)="removefbInfo()">Remove all Profile Info.</button>
