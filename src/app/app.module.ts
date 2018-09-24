@@ -64,7 +64,7 @@ export function getAuthServiceConfigs() {         //configuration for social med
     FacebookModule.forRoot(),
     TooltipModule.forRoot()
   ],
-  providers: [appRoutingProviders, CookieService ,{
+  providers: [appRoutingProviders, CookieService , {
     provide: AuthServiceConfig,
     useFactory: getAuthServiceConfigs
   } ],

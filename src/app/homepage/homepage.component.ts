@@ -7,7 +7,7 @@ import {
 } from 'angular-6-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import {error} from '@angular/compiler-cli/src/transformers/util';
-import { FacebookService, InitParams } from 'ngx-facebook';
+import { FacebookService, InitParams } from 'ngx-facebook';     // Inject FacebookService and call the init method (
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -30,7 +30,7 @@ export class HomepageComponent implements OnInit {
       version: 'v2.8'
     };
 
-    fb.init(initParams);
+    fb.init(initParams);    //This method must be called before using login or api methods
 
 
   }
@@ -41,7 +41,7 @@ export class HomepageComponent implements OnInit {
 
   }
 
-  public socialSignIn(socialPlatform : string) {                          //sign in function
+  public socialSignIn(socialPlatform: string) {                          //sign in function
     let socialPlatformProvider;
     if(socialPlatform == "facebook"){
       socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
